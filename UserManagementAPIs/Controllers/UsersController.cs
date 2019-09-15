@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using DAL.DbModels;
 using BAL.DbOperation;
 using UserManagementAPIs.Models;
+using System.Net;
 
 namespace UserManagementAPIs.Controllers
 {
@@ -15,56 +16,143 @@ namespace UserManagementAPIs.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
+        public UserListResponse GetUser()
         {
-            var result= await new UserCRUD().GetUsers();
-            if (result.Count == 0)
-                return NoContent();
-            else
-                return result;
+            UserListResponse response = new UserListResponse();
+            try
+            {
+                var result = new UserCRUD().GetUsers();
+                if (result.Count == 0)
+                {
+                    response.HttpStatusCode = HttpStatusCode.NoContent;
+                    response.HttpStatusMessage = HttpStatusCode.NoContent.ToString();
+                }
+                else
+                {
+                    response.HttpStatusCode = HttpStatusCode.OK;
+                    response.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                    response.User = result;
+                }
+            }
+            catch
+            {
+                response.HttpStatusCode = HttpStatusCode.InternalServerError;
+                response.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
+            }
+            return response;
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(long id)
+        public UserResponse GetUser(long id)
         {
-            if(ValidateRequest.GetUser(id))
+            UserResponse response = new UserResponse();
+            try
             {
-                var result = await new UserCRUD().GetUser(id);
-                if (result== null)
-                    return NotFound();
+                if (ValidateRequest.GetUser(id))
+                {
+                    var result = new UserCRUD().GetUser(id);
+                    if (result == null)
+                    {
+                        response.HttpStatusCode = HttpStatusCode.NotFound;
+                        response.HttpStatusMessage = HttpStatusCode.NotFound.ToString();
+                    }
+                    else
+                    {
+                        response.HttpStatusCode = HttpStatusCode.OK;
+                        response.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                        response.User = result;
+                    }
+                }
                 else
-                    return result;
+                {
+                    response.HttpStatusCode = HttpStatusCode.BadRequest;
+                    response.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
+                }
             }
-            else
+            catch
             {
-                return BadRequest();
+                response.HttpStatusCode = HttpStatusCode.InternalServerError;
+                response.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
             }
+            return response;
         }
 
         // POST: api/Users
+        [Route("AddUser")]
         [HttpPost]
-        public async Task<ActionResult<User>> AddUser(User user)
+        public BaseResponse AddUser(User user)
         {
-            _context.User.Add(user);
+            BaseResponse resp = new BaseResponse();
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (UserExists(user.Id))
+                if (ValidateRequest.AddUser(user))
                 {
-                    return Conflict();
+                    new UserCRUD().AddUser(user);
+                    if (user.Id > 0)
+                    {
+                        resp.HttpStatusCode = HttpStatusCode.OK;
+                        resp.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                    }
+                    else
+                    {
+                        resp.HttpStatusCode = HttpStatusCode.Conflict;
+                        resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
+                    }
                 }
                 else
                 {
-                    throw;
+                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
+                    resp.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
                 }
             }
+            catch
+            {
+                resp.HttpStatusCode = HttpStatusCode.InternalServerError;
+                resp.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
+            }
+            return resp;
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
+
+        [Route("AddKid")]
+        [HttpPost]
+        public BaseResponse AddKid(Kid kid)
+        {
+            BaseResponse resp = new BaseResponse();
+            try
+            {
+                if (ValidateRequest.AddKid(kid))
+                {
+                    new UserCRUD().AddKid(kid);
+                    if (kid.Id > 0)
+                    {
+                        resp.HttpStatusCode = HttpStatusCode.OK;
+                        resp.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                    }
+                    else
+                    {
+                        resp.HttpStatusCode = HttpStatusCode.Conflict;
+                        resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
+                    }
+                }
+                else
+                {
+                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
+                    resp.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
+                }
+            }
+            catch
+            {
+                resp.HttpStatusCode = HttpStatusCode.InternalServerError;
+                resp.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
+            }
+            return resp;
+
+        }
+
+
+
 
         private readonly Entities _context;
 
@@ -105,30 +193,7 @@ namespace UserManagementAPIs.Controllers
         //    return NoContent();
         //}
 
-        //// POST: api/Users
-        //[HttpPost]
-        //public async Task<ActionResult<User>> PostUser(User user)
-        //{
-        //    _context.User.Add(user);
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (UserExists(user.Id))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        //}
-
+      
         //// DELETE: api/Users/5
         //[HttpDelete("{id}")]
         //public async Task<ActionResult<User>> DeleteUser(long id)

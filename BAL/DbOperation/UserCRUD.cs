@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,17 +25,18 @@ namespace BAL.DbOperation
         {
             db.User.Add(user);
             db.SaveChanges();
+           
         }
 
-        public Task<User> GetUser(long id)
+        public User GetUser(long id)
         {
-            var data = db.User.FindAsync(id);
+            var data = db.User.Find(id);
             return data;
         }
 
-        public Task<List<User>> GetUsers()
+        public List<User> GetUsers()
         {
-            var data = db.User.ToListAsync();
+            var data = db.User.ToList();
             return data;
         }
 
@@ -48,6 +50,11 @@ namespace BAL.DbOperation
         }
 
         void IUserCRUD.GetUser(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddKid(Kid kid)
         {
             throw new NotImplementedException();
         }
