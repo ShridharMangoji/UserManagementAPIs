@@ -43,61 +43,74 @@ namespace DAL.DbModels
             {
                 entity.ToTable("home");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Address).HasColumnName("address");
+                entity.Property(e => e.Address)
+                    .IsRequired()
+                    .HasColumnName("address");
 
                 entity.Property(e => e.HomeType)
+                    .IsRequired()
                     .HasColumnName("home_type")
                     .HasMaxLength(50);
 
                 entity.Property(e => e.State)
+                    .IsRequired()
                     .HasColumnName("state")
                     .HasMaxLength(50);
 
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
                 entity.Property(e => e.Zipcode)
+                    .IsRequired()
                     .HasColumnName("zipcode")
                     .HasMaxLength(50);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Home)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_home_To_user");
             });
 
             modelBuilder.Entity<Kid>(entity =>
             {
                 entity.ToTable("kid");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Age).HasColumnName("age");
 
                 entity.Property(e => e.FirstName)
+                    .IsRequired()
                     .HasColumnName("first_name")
                     .HasMaxLength(50);
 
                 entity.Property(e => e.LastName)
+                    .IsRequired()
                     .HasColumnName("last_name")
                     .HasMaxLength(50);
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Kid)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_kid_To_user");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("user");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Age).HasColumnName("age");
 
                 entity.Property(e => e.Email)
                     .HasColumnName("email")
                     .HasMaxLength(50);
-
-                entity.Property(e => e.Home).HasColumnName("home");
-
-                entity.Property(e => e.Kids).HasColumnName("kids");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
@@ -106,16 +119,6 @@ namespace DAL.DbModels
                 entity.Property(e => e.PhoneNumber)
                     .HasColumnName("phone_number")
                     .HasMaxLength(50);
-
-                entity.HasOne(d => d.HomeNavigation)
-                    .WithMany(p => p.User)
-                    .HasForeignKey(d => d.Home)
-                    .HasConstraintName("FK_user_To_home");
-
-                entity.HasOne(d => d.KidsNavigation)
-                    .WithMany(p => p.User)
-                    .HasForeignKey(d => d.Kids)
-                    .HasConstraintName("FK_user_To_kid");
             });
         }
     }
