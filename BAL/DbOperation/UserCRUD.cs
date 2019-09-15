@@ -23,6 +23,7 @@ namespace BAL.DbOperation
 
         public void AddUser(User user)
         {
+            user.LastUpdate = DateTime.Now;
             db.User.Add(user);
             db.SaveChanges();
 
@@ -30,48 +31,56 @@ namespace BAL.DbOperation
 
         public bool IsUserExists(long id)
         {
-            return db.User.Any(x => x.Id == id);
+            return db.User.Any(x => x.Id == id && x.IsActive == true);
         }
 
         public User GetUser(long id)
         {
-            var data = db.User.Find(id);
+            var data = db.User.Where(x => x.Id == id).Include(x => x.Kid).Include(x => x.Home).FirstOrDefault();
             return data;
         }
 
         public List<User> GetUsers()
         {
-            var data = db.User.ToList();
+            var data = db.User.Include(x => x.Kid).Include(x => x.Home).ToList();
             return data;
         }
 
-        public int MapUserKid(long kidId, long userId)
+        public List<User> GetUsers(List<string> states, List<string> homeType, List<string> homeZipCode, List<string> numberOfKids, bool isAgeFilterExists, int minAge, int maxAge)
         {
-            var status = 1;
-            var kid = db.Kid.FirstOrDefault(x => x.Id == kidId);
-            if (kid != null)
-            {
-                kid.UserId = userId;
-                status = db.SaveChanges();
-            }
-            return status;
+            var userList = new List<User>();
+            var userIdList = db.Home.
+                Where(x => !states.Contains(x.State) && !homeType.Contains(x.HomeType) && !homeZipCode.Contains(x.Zipcode) && !numberOfKids.Contains(x.User.Kid.Count.ToString())).
+                Select(x => x.UserId).ToList();
+
+            if (isAgeFilterExists)
+                userList = db.User.Where(x => !userIdList.Contains(x.Id) && x.Age >= minAge && x.Age <= maxAge).Include(x => x.Kid).Include(x => x.Home).ToList();
+            else
+                userList = db.User.Where(x => !userIdList.Contains(x.Id)).Include(x => x.Kid).Include(x => x.Home).ToList();
+            return userList;
         }
 
-        public int MapUserHome(long homeId, long userId)
-        {
-            var status = 1;
-            var home = db.Home.FirstOrDefault(x => x.Id == homeId);
-            if (home != null)
-            {
-                home.UserId = userId;
-                status = db.SaveChanges();
-            }
-            return status;
-        }
+
+
 
         public void UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            user.LastUpdate = DateTime.Now;
+            db.User.Update(user);
+            db.SaveChanges();
+        }
+
+        public int InActivateUser(long id)
+        {
+            var status = 1;
+            var home = db.User.FirstOrDefault(x => x.Id == id);
+            if (home != null)
+            {
+                home.LastUpdate = DateTime.Now;
+                home.IsActive = false;
+                status = db.SaveChanges();
+            }
+            return status;
         }
     }
 }

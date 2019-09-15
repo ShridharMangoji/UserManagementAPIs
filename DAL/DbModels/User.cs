@@ -12,8 +12,9 @@ namespace DAL.DbModels
             Home = new HashSet<Home>();
             Kid = new HashSet<Kid>();
         }
-
+        [DataMember(Name = "userId")]
         public long Id { get; set; }
+        [DataMember(Name = "userName")]
         public string Name { get; set; }
         [DataMember(Name = "age")]
         public int Age { get; set; }
@@ -21,6 +22,9 @@ namespace DAL.DbModels
         public string Email { get; set; }
         [DataMember(Name = "phoneNumber")]
         public string PhoneNumber { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime LastUpdate { get; set; }
+
         [DataMember(Name = "home")]
         public virtual ICollection<Home> Home { get; set; }
         [DataMember(Name = "kids")]

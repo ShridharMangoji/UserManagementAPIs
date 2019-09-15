@@ -8,6 +8,7 @@ using BAL.DbOperation;
 using UserManagementAPIs.Models;
 using System.Net;
 using BAL.BalConstants;
+using System;
 
 namespace UserManagementAPIs.Controllers
 {
@@ -25,25 +26,21 @@ namespace UserManagementAPIs.Controllers
                 var result = new UserCRUD().GetUsers();
                 if (result.Count == 0)
                 {
-                    response.HttpStatusCode = HttpStatusCode.NoContent;
-                    response.HttpStatusMessage = HttpStatusCode.NoContent.ToString();
+                    response.NoContent();
                 }
                 else
                 {
-                    response.HttpStatusCode = HttpStatusCode.OK;
-                    response.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                    response.OK();
                     response.User = result;
                 }
             }
             catch
             {
-                response.HttpStatusCode = HttpStatusCode.InternalServerError;
-                response.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
+                response.InternalServerError();
             }
             return response;
         }
 
-        // GET: api/Users/5
         [HttpGet("{id}")]
         public UserResponse GetUser(long id)
         {
@@ -55,70 +52,59 @@ namespace UserManagementAPIs.Controllers
                     var result = new UserCRUD().GetUser(id);
                     if (result == null)
                     {
-                        response.HttpStatusCode = HttpStatusCode.NotFound;
-                        response.HttpStatusMessage = HttpStatusCode.NotFound.ToString();
+                        response.NotFound();
                     }
                     else
                     {
-                        response.HttpStatusCode = HttpStatusCode.OK;
-                        response.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                        response.OK();
                         response.User = result;
                     }
                 }
                 else
                 {
-                    response.HttpStatusCode = HttpStatusCode.BadRequest;
-                    response.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
+                    response.BadRequest();
                 }
             }
             catch
             {
-                response.HttpStatusCode = HttpStatusCode.InternalServerError;
-                response.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
+                response.InternalServerError();
             }
             return response;
         }
 
-
-        [Route("AddUser")]
-        [HttpPost]
-        public BaseResponse AddUser(User user)
+        [HttpPost("AddUser")]
+        public BaseResponse AddUser(UserRequest user)
         {
             BaseResponse resp = new BaseResponse();
             try
             {
                 if (ValidateRequest.AddUser(user))
                 {
-                    new UserCRUD().AddUser(user);
-                    if (user.Id > 0)
+                    new UserCRUD().AddUser(user.User);
+                    if (user.User.Id > 0)
                     {
-                        resp.HttpStatusCode = HttpStatusCode.OK;
-                        resp.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                        resp.OK();
                     }
                     else
                     {
-                        resp.HttpStatusCode = HttpStatusCode.Conflict;
-                        resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
+                        resp.Conflict();
                     }
                 }
                 else
                 {
-                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
-                    resp.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
+                    resp.BadRequest();
                 }
             }
-            catch
+            catch(Exception es)
             {
-                resp.HttpStatusCode = HttpStatusCode.InternalServerError;
-                resp.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
+                resp.InternalServerError();
             }
             return resp;
 
         }
 
-        [Route("AddKid")]
-        [HttpPost("{id}")]
-        public BaseResponse AddKid(long id, Kid kid)
+        [HttpPut("AddKid/{id}")]
+        public BaseResponse AddKid(long id, [FromBody] KidRequest kid)
         {
             BaseResponse resp = new BaseResponse();
             try
@@ -127,123 +113,113 @@ namespace UserManagementAPIs.Controllers
                 {
                     if (new UserCRUD().IsUserExists(id))
                     {
-                        new KidCRUD().AddKid(kid);
-                        if (kid.Id > 0)
+                        var kidCrud = new KidCRUD();
+                        kidCrud.AddKid(kid.Kid);
+                        if (kid.Kid.Id > 0)
                         {
-                            resp.HttpStatusCode = HttpStatusCode.OK;
-                            resp.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                            kidCrud.MapUserKid(kid.Kid.Id, id);
+                            resp.OK();
                         }
                         else
                         {
-                            resp.HttpStatusCode = HttpStatusCode.Conflict;
-                            resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
+                            resp.Conflict();
                         }
                     }
                     else
                     {
-                        resp.HttpStatusCode = HttpStatusCode.Conflict;
+                        resp.Conflict();
                         resp.HttpStatusMessage = Constants.InValidUser;
                     }
                 }
                 else
                 {
-                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
-                    resp.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
+                    resp.BadRequest();
                 }
             }
             catch
             {
-                resp.HttpStatusCode = HttpStatusCode.InternalServerError;
-                resp.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
+                resp.InternalServerError();
             }
             return resp;
 
         }
 
-        [Route("AddHome")]
-        [HttpPost("{id}")]
-        public BaseResponse AddHome(long id, Home home)
+        [HttpPut("AddHome/{id}")]
+        public BaseResponse AddHome(long id, HomeRequest home)
         {
             BaseResponse resp = new BaseResponse();
             try
             {
                 if (ValidateRequest.AddHome(id, home))
                 {
+
                     if (new UserCRUD().IsUserExists(id))
                     {
-                        new HomeCRUD().AddHome(home);
-                        if (home.Id > 0)
+                        var homeCrud = new HomeCRUD();
+                        homeCrud.AddHome(home.Home);
+                        if (home.Home.Id > 0)
                         {
-                            resp.HttpStatusCode = HttpStatusCode.OK;
-                            resp.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                            homeCrud.MapUserHome(home.Home.Id, id);
+                            resp.OK();
                         }
                         else
                         {
-                            resp.HttpStatusCode = HttpStatusCode.Conflict;
-                            resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
+                            resp.Conflict();
                         }
                     }
                     else
                     {
-                        resp.HttpStatusCode = HttpStatusCode.Conflict;
+                        resp.Conflict();
                         resp.HttpStatusMessage = Constants.InValidUser;
                     }
                 }
                 else
                 {
-                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
-                    resp.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
+                    resp.BadRequest();
                 }
             }
             catch
             {
-                resp.HttpStatusCode = HttpStatusCode.InternalServerError;
-                resp.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
+                resp.InternalServerError();
             }
             return resp;
 
         }
 
 
-        [Route("UpdateUser")]
-        [HttpPost]
-        public BaseResponse UpdateUser(User user)
+        [HttpPost("UpdateUser")]
+        public BaseResponse UpdateUser(UserRequest user)
         {
             BaseResponse resp = new BaseResponse();
             try
             {
                 if (ValidateRequest.UpdateUser(user))
                 {
-                    new UserCRUD().UpdateUser(user);
-                    if (user.Id > 0)
+                    new UserCRUD().UpdateUser(user.User);
+                    if (user.User.Id > 0)
                     {
-                        resp.HttpStatusCode = HttpStatusCode.OK;
-                        resp.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                        resp.OK();
                     }
                     else
                     {
-                        resp.HttpStatusCode = HttpStatusCode.Conflict;
-                        resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
+                        resp.Conflict();
                     }
                 }
                 else
                 {
-                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
-                    resp.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
+                    resp.BadRequest();
                 }
             }
             catch
             {
-                resp.HttpStatusCode = HttpStatusCode.InternalServerError;
-                resp.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
+                resp.InternalServerError();
             }
             return resp;
 
         }
 
-        [Route("UpdateKid")]
-        [HttpPost("{id}")]
-        public BaseResponse UpdateKid(long id, Kid kid)
+        [HttpPut("UpdateKid/{id}")]
+        public BaseResponse UpdateKid(long id, KidRequest kid)
         {
             BaseResponse resp = new BaseResponse();
             try
@@ -251,172 +227,38 @@ namespace UserManagementAPIs.Controllers
                 if (ValidateRequest.UpdateKid(id, kid))
                 {
                     var kidCrud = new KidCRUD();
-                    if (new UserCRUD().IsUserExists(id) || kidCrud.IsUserKidExists(kid.Id))
+                    if (new UserCRUD().IsUserExists(id) || kidCrud.IsUserKidExists(kid.Kid.Id))
                     {
-                        kidCrud.UpdateKid(kid);
-                        if (kid.Id > 0)
+                        kidCrud.UpdateKid(kid.Kid);
+                        if (kid.Kid.Id > 0)
                         {
-                            resp.HttpStatusCode = HttpStatusCode.OK;
-                            resp.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                            resp.OK();
                         }
                         else
                         {
-                            resp.HttpStatusCode = HttpStatusCode.Conflict;
-                            resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
+                            resp.Conflict();
                         }
                     }
                     else
                     {
-                        resp.HttpStatusCode = HttpStatusCode.Conflict;
-                        resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
+                        resp.Conflict();
                     }
                 }
                 else
                 {
-                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
-                    resp.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
+                    resp.BadRequest();
                 }
             }
             catch
             {
-                resp.HttpStatusCode = HttpStatusCode.InternalServerError;
-                resp.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
+                resp.InternalServerError();
             }
             return resp;
 
         }
 
-        [Route("UpdateHome")]
-        [HttpPost("{id}")]
-        public BaseResponse UpdateHome(long id, Home home)
-        {
-            BaseResponse resp = new BaseResponse();
-            try
-            {
-                if (ValidateRequest.UpdateHome(id, home))
-                {
-                    var homeCrud=new HomeCRUD();
-                    if (new UserCRUD().IsUserExists(id) || homeCrud.IsUserHomeExists(home.Id))
-                    {
-                        homeCrud.UpdateHome(home);
-                        if (home.Id > 0)
-                        {
-                            resp.HttpStatusCode = HttpStatusCode.OK;
-                            resp.HttpStatusMessage = HttpStatusCode.OK.ToString();
-                        }
-                        else
-                        {
-                            resp.HttpStatusCode = HttpStatusCode.Conflict;
-                            resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
-                        }
-                    }
-                    else
-                    {
-                        resp.HttpStatusCode = HttpStatusCode.Conflict;
-                        resp.HttpStatusMessage = Constants.InValidUser;
-                    }
-                }
-                else
-                {
-                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
-                    resp.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
-                }
-            }
-            catch
-            {
-                resp.HttpStatusCode = HttpStatusCode.InternalServerError;
-                resp.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
-            }
-            return resp;
-
-        }
-
-
-
-        [Route("DeleteUser")]
-        [HttpPost]
-        public BaseResponse DeleteUser(User user)
-        {
-            BaseResponse resp = new BaseResponse();
-            try
-            {
-                if (ValidateRequest.UpdateUser(user))
-                {
-                    new UserCRUD().UpdateUser(user);
-                    if (user.Id > 0)
-                    {
-                        resp.HttpStatusCode = HttpStatusCode.OK;
-                        resp.HttpStatusMessage = HttpStatusCode.OK.ToString();
-                    }
-                    else
-                    {
-                        resp.HttpStatusCode = HttpStatusCode.Conflict;
-                        resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
-                    }
-                }
-                else
-                {
-                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
-                    resp.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
-                }
-            }
-            catch
-            {
-                resp.HttpStatusCode = HttpStatusCode.InternalServerError;
-                resp.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
-            }
-            return resp;
-
-        }
-
-        [Route("DeleteKid")]
-        [HttpPost("{id}")]
-        public BaseResponse DeleteKid(long id, Kid kid)
-        {
-            BaseResponse resp = new BaseResponse();
-            try
-            {
-                if (ValidateRequest.UpdateKid(id, kid))
-                {
-                    var kidCrud = new KidCRUD();
-                    if (new UserCRUD().IsUserExists(id) || kidCrud.IsUserKidExists(kid.Id))
-                    {
-                        kidCrud.UpdateKid(kid);
-                        if (kid.Id > 0)
-                        {
-                            resp.HttpStatusCode = HttpStatusCode.OK;
-                            resp.HttpStatusMessage = HttpStatusCode.OK.ToString();
-                        }
-                        else
-                        {
-                            resp.HttpStatusCode = HttpStatusCode.Conflict;
-                            resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
-                        }
-                    }
-                    else
-                    {
-                        resp.HttpStatusCode = HttpStatusCode.Conflict;
-                        resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
-                    }
-                }
-                else
-                {
-                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
-                    resp.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
-                }
-            }
-            catch
-            {
-                resp.HttpStatusCode = HttpStatusCode.InternalServerError;
-                resp.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
-            }
-            return resp;
-
-        }
-
-        [Route("DeleteHome")]
-        [HttpPost("{id}")]
-        public BaseResponse DeleteHome(long id, Home home)
+        [HttpPut("UpdateHome{id}")]
+        public BaseResponse UpdateHome(long id, HomeRequest home)
         {
             BaseResponse resp = new BaseResponse();
             try
@@ -424,40 +266,129 @@ namespace UserManagementAPIs.Controllers
                 if (ValidateRequest.UpdateHome(id, home))
                 {
                     var homeCrud = new HomeCRUD();
-                    if (new UserCRUD().IsUserExists(id) || homeCrud.IsUserHomeExists(home.Id))
+                    if (new UserCRUD().IsUserExists(id) || homeCrud.IsUserHomeExists(home.Home.Id))
                     {
-                        homeCrud.UpdateHome(home);
-                        if (home.Id > 0)
+                        homeCrud.UpdateHome(home.Home);
+                        if (home.Home.Id > 0)
                         {
-                            resp.HttpStatusCode = HttpStatusCode.OK;
-                            resp.HttpStatusMessage = HttpStatusCode.OK.ToString();
+                            resp.OK();
                         }
                         else
                         {
-                            resp.HttpStatusCode = HttpStatusCode.Conflict;
-                            resp.HttpStatusMessage = HttpStatusCode.Conflict.ToString();
+                            resp.Conflict();
                         }
                     }
                     else
                     {
-                        resp.HttpStatusCode = HttpStatusCode.Conflict;
+                        resp.Conflict();
                         resp.HttpStatusMessage = Constants.InValidUser;
                     }
                 }
                 else
                 {
-                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
-                    resp.HttpStatusMessage = HttpStatusCode.BadRequest.ToString();
+                    resp.BadRequest();
                 }
             }
             catch
             {
-                resp.HttpStatusCode = HttpStatusCode.InternalServerError;
-                resp.HttpStatusMessage = HttpStatusCode.InternalServerError.ToString();
+                resp.InternalServerError();
             }
             return resp;
 
         }
+
+
+
+        [HttpPut("DeleteUser/{id}")]
+        public BaseResponse InActivateUser(long id)
+        {
+            BaseResponse resp = new BaseResponse();
+            try
+            {
+                if (ValidateRequest.InActivateUser(id))
+                {
+                    var userCrud = new UserCRUD();
+                    if (userCrud.IsUserExists(id))
+                    {
+                        var status = userCrud.InActivateUser(id);
+                        if (status > 0)
+                        {
+                            resp.OK();
+                        }
+                        else
+                        {
+                            resp.Conflict();
+                        }
+                    }
+                    else
+                    {
+                        resp.Conflict();
+                    }
+
+                }
+                else
+                {
+                    resp.BadRequest();
+                }
+            }
+            catch
+            {
+                resp.InternalServerError();
+            }
+            return resp;
+
+        }
+
+
+        [HttpPut("Search/{id}")]
+        public UserListResponse Search(long id, SearchRequest req)
+        {
+            UserListResponse resp = new UserListResponse();
+            try
+            {
+                if (ValidateRequest.SearchRequest(req))
+                {
+                    var userCrud = new UserCRUD();
+                    if (userCrud.IsUserExists(id))
+                    {
+                        List<string> states = req.Filters.Where(x => x.Filters == eFilters.States).Select(x => x.Values).FirstOrDefault();
+                        List<string> homeType = req.Filters.Where(x => x.Filters == eFilters.HomeType).Select(x => x.Values).FirstOrDefault();
+                        List<string> homeZipCode = req.Filters.Where(x => x.Filters == eFilters.HomeZipCode).Select(x => x.Values).FirstOrDefault();
+                        List<string> numberOfKids = req.Filters.Where(x => x.Filters == eFilters.NumberOfKids).Select(x => x.Values).FirstOrDefault();
+                        int minAge = req.Filters.Where(x => x.Filters == eFilters.Age).Select(x => x.MinAge).FirstOrDefault();
+                        int maxAge = req.Filters.Where(x => x.Filters == eFilters.Age).Select(x => x.MaxAge).FirstOrDefault();
+                        bool isAgeFilterExists = req.Filters.Any(x => x.Filters == eFilters.Age);
+
+                        var userList = userCrud.GetUsers(states, homeType, homeZipCode, numberOfKids, isAgeFilterExists, minAge, maxAge);
+                        if (userList.Count > 0)
+                        {
+                            resp.OK();
+                        }
+                        else
+                        {
+                            resp.NotFound();
+                        }
+                    }
+                    else
+                    {
+                        resp.Conflict();
+                    }
+
+                }
+                else
+                {
+                    resp.BadRequest();
+                }
+            }
+            catch
+            {
+                resp.InternalServerError();
+            }
+            return resp;
+
+        }
+
+
 
 
     }

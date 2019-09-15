@@ -20,12 +20,14 @@ namespace BAL.DbOperation
 
         public void AddKid(Kid kid)
         {
+            kid.LastUpdate = DateTime.Now;
             db.Kid.Add(kid);
             db.SaveChanges();
         }
 
         public void UpdateKid(Kid kid)
         {
+            kid.LastUpdate = DateTime.Now;
             db.Kid.Update(kid);
             db.SaveChanges();
         }
@@ -34,5 +36,17 @@ namespace BAL.DbOperation
         {
             return db.Kid.Any(x => x.Id == id);
         }
+        public int MapUserKid(long kidId, long userId)
+        {
+            var status = 1;
+            var kid = db.Kid.FirstOrDefault(x => x.Id == kidId);
+            if (kid != null)
+            {
+                kid.UserId = userId;
+                status = db.SaveChanges();
+            }
+            return status;
+        }
+
     }
 }

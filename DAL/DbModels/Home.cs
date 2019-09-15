@@ -17,6 +17,7 @@ namespace DAL.DbModels
         [DataMember(Name = "zipcode")]
         public string Zipcode { get; set; }
         public long UserId { get; set; }
+        public DateTime LastUpdate { get; set; }
 
         public virtual User User { get; set; }
     }

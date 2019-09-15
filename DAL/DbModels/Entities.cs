@@ -30,9 +30,7 @@ namespace DAL.DbModels
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(connectionString);
-            }
+            { optionsBuilder.UseSqlServer(connectionString); }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -53,6 +51,10 @@ namespace DAL.DbModels
                     .IsRequired()
                     .HasColumnName("home_type")
                     .HasMaxLength(50);
+
+                entity.Property(e => e.LastUpdate)
+                    .HasColumnName("last_update")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.State)
                     .IsRequired()
@@ -91,6 +93,10 @@ namespace DAL.DbModels
                     .HasColumnName("last_name")
                     .HasMaxLength(50);
 
+                entity.Property(e => e.LastUpdate)
+                    .HasColumnName("last_update")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.HasOne(d => d.User)
@@ -111,6 +117,13 @@ namespace DAL.DbModels
                 entity.Property(e => e.Email)
                     .HasColumnName("email")
                     .HasMaxLength(50);
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasColumnName("is_active");
+
+                entity.Property(e => e.LastUpdate)
+                    .HasColumnName("last_update");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")

@@ -20,12 +20,14 @@ namespace BAL.DbOperation
 
         public void AddHome(Home home)
         {
+            home.LastUpdate = DateTime.Now;
             db.Home.Add(home);
             db.SaveChanges();
         }
 
         public void UpdateHome(Home home)
         {
+            home.LastUpdate = DateTime.Now;
             db.Home.Update(home);
             db.SaveChanges();
         }
@@ -33,6 +35,17 @@ namespace BAL.DbOperation
         public bool IsUserHomeExists(long id)
         {
             return db.User.Any(x => x.Id == id);
+        }
+        public int MapUserHome(long homeId, long userId)
+        {
+            var status = 1;
+            var home = db.Home.FirstOrDefault(x => x.Id == homeId);
+            if (home != null)
+            {
+                home.UserId = userId;
+                status = db.SaveChanges();
+            }
+            return status;
         }
     }
 }

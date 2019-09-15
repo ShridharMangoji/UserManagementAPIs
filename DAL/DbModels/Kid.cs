@@ -15,6 +15,7 @@ namespace DAL.DbModels
         [DataMember(Name = "age")]
         public int Age { get; set; }
         public long UserId { get; set; }
+        public DateTime LastUpdate { get; set; }
 
         public virtual User User { get; set; }
     }
