@@ -9,7 +9,7 @@ namespace BAL.BalConstants
         public const string InValidUser = "InValid User";
     }
 
-    public enum eFilters
+    public enum EFilters
     {
         Age=1,
         States,

@@ -7,6 +7,7 @@ namespace DAL.DbModels
     [DataContract]
     public partial class Home
     {
+        [DataMember(Name = "id")]
         public long Id { get; set; }
         [DataMember(Name = "homeType")]
         public string HomeType { get; set; }

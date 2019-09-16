@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace BAL.DbOperation
 {
-    public class UserCRUD
+    public class UserCRUD : IUserCRUD
     {
-        Entities db;
+        readonly Entities db;
         public UserCRUD()
         {
             db = new Entities();
@@ -24,6 +24,7 @@ namespace BAL.DbOperation
         public void AddUser(User user)
         {
             user.LastUpdate = DateTime.Now;
+            user.IsActive = true;
             db.User.Add(user);
             db.SaveChanges();
 
@@ -36,13 +37,13 @@ namespace BAL.DbOperation
 
         public User GetUser(long id)
         {
-            var data = db.User.Where(x => x.Id == id).Include(x => x.Kid).Include(x => x.Home).FirstOrDefault();
+            var data = db.User.Where(x => x.Id == id && x.IsActive == true).Include(x => x.Kid).Include(x => x.Home).FirstOrDefault();
             return data;
         }
 
         public List<User> GetUsers()
         {
-            var data = db.User.Include(x => x.Kid).Include(x => x.Home).ToList();
+            var data = db.User.Where(x => x.IsActive == true).Include(x => x.Kid).Include(x => x.Home).ToList();
             return data;
         }
 
@@ -54,7 +55,7 @@ namespace BAL.DbOperation
                 Select(x => x.UserId).ToList();
 
             if (isAgeFilterExists)
-                userList = db.User.Where(x => !userIdList.Contains(x.Id) && x.Age >= minAge && x.Age <= maxAge).Include(x => x.Kid).Include(x => x.Home).ToList();
+                userList = db.User.Where(x => !userIdList.Contains(x.Id) && x.IsActive == true && x.Age >= minAge && x.Age <= maxAge).Include(x => x.Kid).Include(x => x.Home).ToList();
             else
                 userList = db.User.Where(x => !userIdList.Contains(x.Id)).Include(x => x.Kid).Include(x => x.Home).ToList();
             return userList;
@@ -81,6 +82,11 @@ namespace BAL.DbOperation
                 status = db.SaveChanges();
             }
             return status;
+        }
+
+        public bool IsUserExists(string phoneNumber, string email)
+        {
+            return db.User.Any(x => x.PhoneNumber == phoneNumber && x.Email == email && x.IsActive == true);
         }
     }
 }

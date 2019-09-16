@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace DAL.DbModels
@@ -23,6 +24,7 @@ namespace DAL.DbModels
         [DataMember(Name = "phoneNumber")]
         public string PhoneNumber { get; set; }
         public bool IsActive { get; set; }
+        [DataType(DataType.DateTime)]
         public DateTime LastUpdate { get; set; }
 
         [DataMember(Name = "home")]

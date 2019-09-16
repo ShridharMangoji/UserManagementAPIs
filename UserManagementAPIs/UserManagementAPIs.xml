@@ -4,5 +4,146 @@
         <name>UserManagementAPIs</name>
     </assembly>
     <members>
+        <member name="T:UserManagementAPIs.Controllers.HomeController">
+            <summary>
+            Home Related Action Controller
+            </summary>
+        </member>
+        <member name="M:UserManagementAPIs.Controllers.HomeController.AddHome(System.Int64,UserManagementAPIs.Models.HomeRequest)">
+            <summary>
+            Add Home data related to User
+            </summary>
+            <param name="id">User ID</param>
+            <param name="home">Home Model</param>
+            <returns>API Status</returns>
+        </member>
+        <member name="M:UserManagementAPIs.Controllers.HomeController.UpdateHome(System.Int64,UserManagementAPIs.Models.HomeRequest)">
+            <summary>
+            Update Home model against user id
+            </summary>
+            <param name="id">User Id</param>
+            <param name="home">Updated Home Model</param>
+            <returns></returns>
+        </member>
+        <member name="T:UserManagementAPIs.Controllers.KidController">
+            <summary>
+            Kid Related Action Controller
+            </summary>
+        </member>
+        <member name="M:UserManagementAPIs.Controllers.KidController.AddKid(System.Int64,UserManagementAPIs.Models.KidRequest)">
+            <summary>
+            Add Kid
+            </summary>
+            <param name="id">user id</param>
+            <param name="kid">Kid Model</param>
+            <returns>API status</returns>
+        </member>
+        <member name="M:UserManagementAPIs.Controllers.KidController.UpdateKid(System.Int64,UserManagementAPIs.Models.KidRequest)">
+            <summary>
+            Update Kid Model against user id
+            </summary>
+            <param name="id">user id</param>
+            <param name="kid">Updated Kid Model</param>
+            <returns>API status</returns>
+        </member>
+        <member name="T:UserManagementAPIs.Controllers.UsersController">
+            <summary>
+            User Related Action Controller
+            </summary>
+        </member>
+        <member name="M:UserManagementAPIs.Controllers.UsersController.GetUser">
+            <summary>
+            Get All Active Users
+            </summary>
+            <returns>User List</returns>
+        </member>
+        <member name="M:UserManagementAPIs.Controllers.UsersController.GetUser(System.Int64)">
+            <summary>
+            Get User data
+            </summary>
+            <param name="id">user id</param>
+            <returns>User Data</returns>
+        </member>
+        <member name="M:UserManagementAPIs.Controllers.UsersController.AddUser(UserManagementAPIs.Models.UserRequest)">
+            <summary>
+            Add User
+            </summary>
+            <param name="user">User Model</param>
+            <returns>API Status</returns>
+        </member>
+        <member name="M:UserManagementAPIs.Controllers.UsersController.UpdateUser(UserManagementAPIs.Models.UserRequest)">
+            <summary>
+            Update User Information
+            </summary>
+            <param name="user">Updated User Model</param>
+            <returns>API Status</returns>
+        </member>
+        <member name="M:UserManagementAPIs.Controllers.UsersController.InActivateUser(System.Int64)">
+            <summary>
+            Inactivate User
+            </summary>
+            <param name="id">User ID</param>
+            <returns>API Status</returns>
+        </member>
+        <member name="M:UserManagementAPIs.Controllers.UsersController.Search(System.Int64,UserManagementAPIs.Models.SearchRequest)">
+            <summary>
+            User List based on the search criteria 
+            </summary>
+            <param name="id">user id</param>
+            <param name="req">Search filter model</param>
+            <returns>User list as response based on search model</returns>
+        </member>
+        <member name="T:UserManagementAPIs.Models.ExtensionMethods">
+            <summary>
+            Extension methods
+            </summary>
+        </member>
+        <member name="M:UserManagementAPIs.Models.ExtensionMethods.OK(UserManagementAPIs.Models.BaseResponse)">
+            <summary>
+            on API Success
+            </summary>
+            <param name="resp">Successful API status</param>
+        </member>
+        <member name="M:UserManagementAPIs.Models.ExtensionMethods.Conflict(UserManagementAPIs.Models.BaseResponse)">
+            <summary>
+            Mis Match of data
+            </summary>
+            <param name="resp">Conflict API status</param>
+        </member>
+        <member name="M:UserManagementAPIs.Models.ExtensionMethods.Unauthorized(UserManagementAPIs.Models.BaseResponse)">
+            <summary>
+            Unauthorization of data
+            </summary>
+            <param name="resp">Unauthorized API status</param>
+        </member>
+        <member name="M:UserManagementAPIs.Models.ExtensionMethods.BadRequest(UserManagementAPIs.Models.BaseResponse)">
+             <summary>
+            If request didn't meet the standards
+             </summary>
+             <param name="resp">Badrequest API status</param>
+        </member>
+        <member name="M:UserManagementAPIs.Models.ExtensionMethods.InternalServerError(UserManagementAPIs.Models.BaseResponse)">
+             <summary>
+            On server side errors
+             </summary>
+             <param name="resp">Internal server error API status</param>
+        </member>
+        <member name="M:UserManagementAPIs.Models.ExtensionMethods.NotFound(UserManagementAPIs.Models.BaseResponse)">
+            <summary>
+            If required element is not present
+            </summary>
+            <param name="resp">Not found API status</param>
+        </member>
+        <member name="M:UserManagementAPIs.Models.ExtensionMethods.NoContent(UserManagementAPIs.Models.BaseResponse)">
+            <summary>
+            If there are no values to display
+            </summary>
+            <param name="resp">No Content API status</param>
+        </member>
+        <member name="T:UserManagementAPIs.Models.ValidateRequest">
+            <summary>
+            Validate client request before actual process
+            </summary>
+        </member>
     </members>
 </doc>

@@ -7,6 +7,8 @@ namespace DAL.DbModels
     [DataContract]
     public partial class Kid
     {
+
+        [DataMember(Name = "id")]
         public long Id { get; set; }
         [DataMember(Name = "firstName")]
         public string FirstName { get; set; }

@@ -8,8 +8,13 @@ using DAL.DbModels;
 
 namespace UserManagementAPIs.Models
 {
+
+    /// <summary>
+    /// Validate client request before actual process
+    /// </summary>
     public class ValidateRequest
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static bool GetUser(long id)
         {
             if (id <= 0)
@@ -45,7 +50,7 @@ namespace UserManagementAPIs.Models
 
         internal static bool AddHome(long id, HomeRequest home)
         {
-            if (home == null || home.Home==null ||string.IsNullOrEmpty(home.Home.Address) || string.IsNullOrEmpty(home.Home.HomeType) ||
+            if (id<=0||home == null || home.Home==null ||string.IsNullOrEmpty(home.Home.Address) || string.IsNullOrEmpty(home.Home.HomeType) ||
                 string.IsNullOrEmpty(home.Home.State) || string.IsNullOrEmpty(home.Home.Zipcode))
                 return false;
             else
@@ -79,7 +84,7 @@ namespace UserManagementAPIs.Models
         internal static bool UpdateHome(long id, HomeRequest req)
         {
             
-            if (req == null ||req.Home==null|| req.Home.Id <= 0 || string.IsNullOrEmpty(req.Home.Address) 
+            if (id<=0||req == null ||req.Home==null|| req.Home.Id <= 0 || string.IsNullOrEmpty(req.Home.Address) 
                 || string.IsNullOrEmpty(req.Home.HomeType) || string.IsNullOrEmpty(req.Home.State) || 
                 string.IsNullOrEmpty(req.Home.Zipcode))
                 return false;
@@ -97,10 +102,11 @@ namespace UserManagementAPIs.Models
 
         internal static bool SearchRequest(SearchRequest req)
         {
-            if (req == null || req.Filters == null || req.Filters.Count == 0||req.Filters.Count> Enum.GetNames(typeof(eFilters)).Length)
+            if (req == null || req.Filters == null || req.Filters.Count == 0||req.Filters.Count> Enum.GetNames(typeof(EFilters)).Length)
                 return false;
             else
                 return true;
         }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

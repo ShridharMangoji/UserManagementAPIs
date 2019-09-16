@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace UserManagementAPIs.Models
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class Request
     {
         public string AppVersion { get; set; }
@@ -32,6 +33,7 @@ namespace UserManagementAPIs.Models
     {
         public Home Home { get; set; }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
 
 }

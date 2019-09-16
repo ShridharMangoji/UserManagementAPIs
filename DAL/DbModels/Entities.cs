@@ -8,7 +8,7 @@ namespace DAL.DbModels
 {
     public partial class Entities : DbContext
     {
-        private string connectionString;
+        private readonly string connectionString;
         public Entities()
         {
             IConfigurationBuilder builder = new ConfigurationBuilder();
@@ -17,6 +17,7 @@ namespace DAL.DbModels
             var root = builder.Build();
             connectionString = root.GetConnectionString("DefaultConnection");
         }
+
 
         public Entities(DbContextOptions<Entities> options)
             : base(options)
@@ -30,7 +31,9 @@ namespace DAL.DbModels
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            { optionsBuilder.UseSqlServer(connectionString); }
+            {
+                optionsBuilder.UseSqlServer(connectionString);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -118,12 +121,11 @@ namespace DAL.DbModels
                     .HasColumnName("email")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.IsActive)
-                    .IsRequired()
-                    .HasColumnName("is_active");
+                entity.Property(e => e.IsActive).HasColumnName("is_active");
 
                 entity.Property(e => e.LastUpdate)
-                    .HasColumnName("last_update");
+                    .HasColumnName("last_update")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")

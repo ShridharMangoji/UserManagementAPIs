@@ -1,4 +1,5 @@
 ﻿using DAL.DbModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,9 @@ using System.Text;
 
 namespace BAL.DbOperation
 {
-  public  class HomeCRUD
+    public class HomeCRUD : IHomeCRUD
     {
-        Entities db;
+        readonly Entities db;
         public HomeCRUD()
         {
             db = new Entities();
@@ -20,6 +21,7 @@ namespace BAL.DbOperation
 
         public void AddHome(Home home)
         {
+            home.Id = 0;
             home.LastUpdate = DateTime.Now;
             db.Home.Add(home);
             db.SaveChanges();
@@ -27,6 +29,8 @@ namespace BAL.DbOperation
 
         public void UpdateHome(Home home)
         {
+            db.Entry(home).State = EntityState.Modified;
+            db.Entry(home).Property(x => x.UserId).IsModified = false;
             home.LastUpdate = DateTime.Now;
             db.Home.Update(home);
             db.SaveChanges();
@@ -36,16 +40,6 @@ namespace BAL.DbOperation
         {
             return db.User.Any(x => x.Id == id);
         }
-        public int MapUserHome(long homeId, long userId)
-        {
-            var status = 1;
-            var home = db.Home.FirstOrDefault(x => x.Id == homeId);
-            if (home != null)
-            {
-                home.UserId = userId;
-                status = db.SaveChanges();
-            }
-            return status;
-        }
+
     }
 }

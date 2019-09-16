@@ -7,7 +7,7 @@ namespace BAL.Model
 {
   public  class FilterModel
     {
-        public eFilters Filters { get; set; }
+        public EFilters Filters { get; set; }
         public int MinAge { get; set; }
         public int MaxAge { get; set; }
 

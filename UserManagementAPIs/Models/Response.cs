@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace UserManagementAPIs.Models
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
     [DataContract]
     public class BaseResponse
     {
@@ -29,3 +31,4 @@ namespace UserManagementAPIs.Models
         public User User { get; set; }
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

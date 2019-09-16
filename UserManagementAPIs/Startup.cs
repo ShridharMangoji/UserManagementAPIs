@@ -14,6 +14,7 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace UserManagementAPIs
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -58,4 +59,5 @@ namespace UserManagementAPIs
             });
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
