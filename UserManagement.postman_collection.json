@@ -1,0 +1,893 @@
+{
+	"info": {
+		"_postman_id": "3b10bc25-cc5a-4059-b8c5-1cad2d80cc61",
+		"name": "UserManagement",
+		"description": "User Management APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AddUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"user\": {\r\n    \"userName\": \"string\",\r\n    \"age\": 18,\r\n    \"email\": \"s@s.com\",\r\n    \"phoneNumber\": \"string\"\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/Users/AddUser",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"Users",
+						"AddUser"
+					]
+				},
+				"description": "API is used to make a new entry to User table\nAnd by default they will be set as active"
+			},
+			"response": [
+				{
+					"name": "AddKid",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"kid\": {\r\n    \"firstName\": \"firstName\",\r\n    \"lastName\": \"LastName\",\r\n    \"age\": 18\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44309/api/Users/AddKid/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44309",
+							"path": [
+								"api",
+								"Users",
+								"AddKid",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 15 Sep 2019 20:19:14 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status_code\": 200,\n    \"status_message\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "AddKid",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"kid\": {\r\n    \"firstName\": \"firstName\",\r\n    \"lastName\": \"LastName\",\r\n    \"age\": 18\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/kid/AddKid/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"kid",
+						"AddKid",
+						"1"
+					]
+				},
+				"description": "API is used to make a new entry to Kid table referring user"
+			},
+			"response": [
+				{
+					"name": "AddKid",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"kid\": {\r\n    \"firstName\": \"firstName\",\r\n    \"lastName\": \"LastName\",\r\n    \"age\": 18\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44309/api/kid/AddKid/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44309",
+							"path": [
+								"api",
+								"kid",
+								"AddKid",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 15 Sep 2019 20:19:14 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status_code\": 200,\n    \"status_message\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "AddHome",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"home\": {\r\n    \"homeType\": \"string\",\r\n    \"address\": \"string\",\r\n    \"state\": \"string\",\r\n    \"zipcode\": \"string\"\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/home/AddHome/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"home",
+						"AddHome",
+						"1"
+					]
+				},
+				"description": "API is used to make a new entry to Home table referring user"
+			},
+			"response": [
+				{
+					"name": "AddHome",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"home\": {\r\n    \"homeType\": \"string\",\r\n    \"address\": \"string\",\r\n    \"state\": \"string\",\r\n    \"zipcode\": \"string\"\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44309/api/home/AddHome/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44309",
+							"path": [
+								"api",
+								"home",
+								"AddHome",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 15 Sep 2019 20:21:41 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status_code\": 200,\n    \"status_message\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user\": {\r\n  \t\"userId\":2,\r\n    \"userName\": \"string\",\r\n    \"age\": 18,\r\n    \"email\": \"s@s.com\",\r\n    \"phoneNumber\": \"7204924455\"\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/Users/updateuser",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"Users",
+						"updateuser"
+					]
+				},
+				"description": "API is used to update existing user model present in database "
+			},
+			"response": [
+				{
+					"name": "UpdateUser",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user\": {\r\n  \t\"userId\":1,\r\n    \"userName\": \"string\",\r\n    \"age\": 18,\r\n    \"email\": \"s@s.com\",\r\n    \"phoneNumber\": \"7204924455\"\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44309/api/Users/updateuser",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44309",
+							"path": [
+								"api",
+								"Users",
+								"updateuser"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 15 Sep 2019 20:53:11 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status_code\": 200,\n    \"status_message\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateKid",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"kid\": {\r\n  \t\"id\":3,\r\n    \"firstName\": \"firstName\",\r\n    \"lastName\": \"LastName\",\r\n    \"age\": 18\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/kid/UpdateKid/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"kid",
+						"UpdateKid",
+						"1"
+					]
+				},
+				"description": "API is used to update existing Kid model with respect to userID\n"
+			},
+			"response": [
+				{
+					"name": "UpdateKid",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"kid\": {\r\n  \t\"id\":3,\r\n    \"firstName\": \"firstName\",\r\n    \"lastName\": \"LastName\",\r\n    \"age\": 18\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44309/api/kid/UpdateKid/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44309",
+							"path": [
+								"api",
+								"kid",
+								"UpdateKid",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 15 Sep 2019 21:08:06 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status_code\": 200,\n    \"status_message\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "UpdateHome",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"home\": {\r\n  \t\"id\":1,\r\n    \"homeType\": \"string\",\r\n    \"address\": \"string\",\r\n    \"state\": \"string\",\r\n    \"zipcode\": \"string\"\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/home/updatehome/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"home",
+						"updatehome",
+						"1"
+					]
+				},
+				"description": "API is used to update existing Home model with respect to userID\n"
+			},
+			"response": [
+				{
+					"name": "UpdateHome",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"home\": {\r\n  \t\"id\":1,\r\n    \"homeType\": \"string\",\r\n    \"address\": \"string\",\r\n    \"state\": \"string\",\r\n    \"zipcode\": \"string\"\r\n  },\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44309/api/home/updatehome/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44309",
+							"path": [
+								"api",
+								"home",
+								"updatehome",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 15 Sep 2019 21:44:20 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status_code\": 200,\n    \"status_message\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "DeleteUser",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/Users/deleteuser/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"Users",
+						"deleteuser",
+						"1"
+					]
+				},
+				"description": "API is used to set user inactive\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Search",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"filters\": [\r\n    {\r\n      \"filters\": 1,\r\n      \"minAge\": 10,\r\n      \"maxAge\": 1000\r\n    },\r\n    {\r\n      \"filters\": 2,\r\n      \"values\": [\r\n        \"string\"\r\n      ]\r\n    },\r\n    {\r\n      \"filters\": 3,\r\n      \"values\": [\r\n        \"string\"\r\n      ]\r\n    },\r\n    {\r\n      \"filters\": 4,\r\n      \"values\": [\r\n        \"string\"\r\n      ]\r\n    },\r\n    {\r\n      \"filters\": 5,\r\n      \"values\": [\r\n        \"string\"\r\n      ]\r\n    }\r\n  ],\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/Users/Search/2",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"Users",
+						"Search",
+						"2"
+					]
+				},
+				"description": "API is used to search UserList based on different filters namely\n\t\tAge=1,\n        States=2,\n        HomeType=3,\n        HomeZipCode=4,\n        NumberOfKids=5"
+			},
+			"response": [
+				{
+					"name": "Search",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"filters\": [\r\n    {\r\n      \"filters\": 1,\r\n      \"minAge\": 10,\r\n      \"maxAge\": 1000\r\n    },\r\n    {\r\n      \"filters\": 2,\r\n      \"values\": [\r\n        \"string\"\r\n      ]\r\n    },\r\n    {\r\n      \"filters\": 3,\r\n      \"values\": [\r\n        \"string\"\r\n      ]\r\n    },\r\n    {\r\n      \"filters\": 4,\r\n      \"values\": [\r\n        \"string\"\r\n      ]\r\n    },\r\n    {\r\n      \"filters\": 5,\r\n      \"values\": [\r\n        \"string\"\r\n      ]\r\n    }\r\n  ],\r\n  \"appVersion\": \"string\",\r\n  \"osType\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44309/api/Users/Search/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44309",
+							"path": [
+								"api",
+								"Users",
+								"Search",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 15 Sep 2019 21:55:18 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"user_list\": [\n        {\n            \"userId\": 2,\n            \"userName\": \"string\",\n            \"age\": 18,\n            \"email\": \"s@s.com\",\n            \"phoneNumber\": \"7204924455\",\n            \"home\": [],\n            \"kids\": []\n        }\n    ],\n    \"status_code\": 200,\n    \"status_message\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GetAllUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/Users",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"Users"
+					]
+				},
+				"description": "Get All Active users\n"
+			},
+			"response": [
+				{
+					"name": "GetAllUsers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44309/api/Users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44309",
+							"path": [
+								"api",
+								"Users"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 15 Sep 2019 20:24:29 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"user_list\": [\n        {\n            \"userId\": 1,\n            \"userName\": \"string\",\n            \"age\": 18,\n            \"email\": \"s@s.com\",\n            \"phoneNumber\": \"7204924455\",\n            \"home\": [\n                {\n                    \"homeType\": \"string\",\n                    \"address\": \"string\",\n                    \"state\": \"string\",\n                    \"zipcode\": \"string\"\n                }\n            ],\n            \"kids\": [\n                {\n                    \"firstName\": \"firstName\",\n                    \"lastName\": \"LastName\",\n                    \"age\": 18\n                }\n            ]\n        }\n    ],\n    \"status_code\": 200,\n    \"status_message\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GetUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/Users/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"Users",
+						"1"
+					]
+				},
+				"description": "Get Requested user\n"
+			},
+			"response": [
+				{
+					"name": "GetUser",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44309/api/Users/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44309",
+							"path": [
+								"api",
+								"Users",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 15 Sep 2019 20:25:16 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"user\": {\n        \"userId\": 1,\n        \"userName\": \"string\",\n        \"age\": 18,\n        \"email\": \"s@s.com\",\n        \"phoneNumber\": \"7204924455\",\n        \"home\": [\n            {\n                \"homeType\": \"string\",\n                \"address\": \"string\",\n                \"state\": \"string\",\n                \"zipcode\": \"string\"\n            }\n        ],\n        \"kids\": [\n            {\n                \"firstName\": \"firstName\",\n                \"lastName\": \"LastName\",\n                \"age\": 18\n            }\n        ]\n    },\n    \"status_code\": 200,\n    \"status_message\": \"OK\"\n}"
+				}
+			]
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -86,7 +86,7 @@ namespace BAL.DbOperation
 
         public bool IsUserExists(string phoneNumber, string email)
         {
-            return db.User.Any(x => x.PhoneNumber == phoneNumber && x.Email == email && x.IsActive == true);
+            return db.User.Any(x => (x.PhoneNumber == phoneNumber || x.Email == email) && x.IsActive == true);
         }
     }
 }
