@@ -25,6 +25,10 @@ The solution contains following endpoints
         HomeZipCode=4,
         NumberOfKids=5
 
+Log is been added to monitore the exception cases, so that in next build we can take care of the issue raised in previous build
+Relation database(local mdf file) is used to maintain data and have necessary operations
+
+
 Run UserManagementAPI module, 
 Postman collection is shared to test the APIs
 Postman online documentation: #https://documenter.getpostman.com/view/6095216/SVmtyKSN
