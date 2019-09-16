@@ -9,6 +9,8 @@ using UserManagementAPIs.Models;
 using System.Net;
 using BAL.BalConstants;
 using System;
+using Microsoft.AspNetCore.JsonPatch;
+using Newtonsoft.Json;
 
 namespace UserManagementAPIs.Controllers
 {
@@ -19,6 +21,18 @@ namespace UserManagementAPIs.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private ILog logger;
+
+        //public UsersController()
+        //{
+
+        //}
+
+        public UsersController(ILog logger)
+        {
+            this.logger = logger;
+        }
+
         /// <summary>
         /// Get All Active Users
         /// </summary>
@@ -29,6 +43,7 @@ namespace UserManagementAPIs.Controllers
             UserListResponse response = new UserListResponse();
             try
             {
+                throw new Exception();
                 var result = new UserCRUD().GetUsers();
                 if (result.Count == 0)
                 {
@@ -40,8 +55,9 @@ namespace UserManagementAPIs.Controllers
                     response.User = result;
                 }
             }
-            catch
+            catch (Exception es)
             {
+                logger.Error("GetUser " + es.StackTrace);
                 response.InternalServerError();
             }
             return response;
@@ -75,8 +91,10 @@ namespace UserManagementAPIs.Controllers
                     response.BadRequest();
                 }
             }
-            catch
+            catch(Exception es)
             {
+                logger.Error(string.Format("GetUser, UserID={0}", id));
+                logger.Error("GetUser " + es.StackTrace);
                 response.InternalServerError();
             }
             return response;
@@ -122,6 +140,9 @@ namespace UserManagementAPIs.Controllers
             }
             catch (Exception es)
             {
+                string req = JsonConvert.SerializeObject(user);
+                logger.Error(string.Format("AddUser, Req={0}", req));
+                logger.Error("AddUser " + es.StackTrace);
                 resp.InternalServerError();
             }
             return resp;
@@ -167,6 +188,9 @@ namespace UserManagementAPIs.Controllers
             }
             catch (Exception es)
             {
+                string req = JsonConvert.SerializeObject(user);
+                logger.Error(string.Format("UpdateUser, Req={0}", req));
+                logger.Error("UpdateUser " + es.StackTrace);
                 resp.InternalServerError();
             }
             return resp;
@@ -210,8 +234,10 @@ namespace UserManagementAPIs.Controllers
                     resp.BadRequest();
                 }
             }
-            catch
+            catch(Exception es)
             {
+                logger.Error(string.Format("DeleteUser, UserID={0}", id));
+                logger.Error("DeleteUser " + es.StackTrace);
                 resp.InternalServerError();
             }
             return resp;
@@ -266,8 +292,11 @@ namespace UserManagementAPIs.Controllers
                     resp.BadRequest();
                 }
             }
-            catch
+            catch(Exception es)
             {
+                string reqData = JsonConvert.SerializeObject(req);
+                logger.Error(string.Format("SearchRequest, UserID={0}, Req={1}", id, reqData));
+                logger.Error("SearchRequest " + es.StackTrace);
                 resp.InternalServerError();
             }
             return resp;

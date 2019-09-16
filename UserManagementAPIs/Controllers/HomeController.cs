@@ -1,7 +1,9 @@
 ﻿using System;
 using BAL.BalConstants;
 using BAL.DbOperation;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using UserManagementAPIs.Models;
 
 namespace UserManagementAPIs.Controllers
@@ -13,6 +15,19 @@ namespace UserManagementAPIs.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
+
+        private ILog logger;
+
+        //public HomeController()
+        //{
+
+        //}
+
+        public HomeController(ILog logger)
+        {
+            this.logger = logger;
+        }
+
         /// <summary>
         /// Add Home data related to User
         /// </summary>
@@ -55,6 +70,9 @@ namespace UserManagementAPIs.Controllers
             }
             catch (Exception es)
             {
+                string req = JsonConvert.SerializeObject(home);
+                logger.Error(string.Format("AddHome, UserID={0}, Req={1}", id, req));
+                logger.Error("AddHome "+es.StackTrace);
                 resp.InternalServerError();
             }
             return resp;
@@ -103,6 +121,9 @@ namespace UserManagementAPIs.Controllers
             }
             catch (Exception es)
             {
+                string req = JsonConvert.SerializeObject(home);
+                logger.Error(string.Format("UpdateHome, UserID={0}, Req={1}", id, req));
+                logger.Error("UpdateHome " + es.StackTrace);
                 resp.InternalServerError();
             }
             return resp;

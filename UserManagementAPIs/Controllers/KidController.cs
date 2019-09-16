@@ -2,6 +2,7 @@
 using BAL.BalConstants;
 using BAL.DbOperation;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using UserManagementAPIs.Models;
 
 
@@ -14,6 +15,18 @@ namespace UserManagementAPIs.Controllers
     [ApiController]
     public class KidController : ControllerBase
     {
+        private ILog logger;
+
+        //public KidController()
+        //{
+
+        //}
+
+        public KidController(ILog logger)
+        {
+            this.logger = logger;
+        }
+
         /// <summary>
         /// Add Kid
         /// </summary>
@@ -56,6 +69,9 @@ namespace UserManagementAPIs.Controllers
             }
             catch (Exception es)
             {
+                string req = JsonConvert.SerializeObject(kid);
+                logger.Error(string.Format("AddKid, UserID={0}, Req={1}", id, req));
+                logger.Error("AddKid " + es.StackTrace);
                 resp.InternalServerError();
             }
             return resp;
@@ -109,6 +125,9 @@ namespace UserManagementAPIs.Controllers
             }
             catch (Exception es)
             {
+                string req = JsonConvert.SerializeObject(kid);
+                logger.Error(string.Format("UpdateKid, UserID={0}, Req={1}", id, req));
+                logger.Error("UpdateKid " + es.StackTrace);
                 resp.InternalServerError();
             }
             return resp;

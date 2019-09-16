@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -10,7 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NLog;
 using Swashbuckle.AspNetCore.Swagger;
+using UserManagementAPIs.Models;
 
 namespace UserManagementAPIs
 {
@@ -19,8 +22,10 @@ namespace UserManagementAPIs
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(System.String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
+
 
         public IConfiguration Configuration { get; }
 
@@ -28,10 +33,11 @@ namespace UserManagementAPIs
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            // services.AddTransient<, DataAccess>();
+            services.AddSingleton<ILog, NLogger>();
 
 
-            services.AddSwaggerGen(c => {
+            services.AddSwaggerGen(c =>
+            {
                 c.SwaggerDoc("v1", new Info { Title = "User API", Version = "V1" });
             });
 
@@ -54,7 +60,8 @@ namespace UserManagementAPIs
             app.UseMvc();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "post API V1");
             });
         }

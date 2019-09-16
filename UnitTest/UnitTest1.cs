@@ -4,15 +4,18 @@ using Xunit;
 
 namespace UnitTest
 {
+
     public class UnitTest1
     {
+        NLogger logger = new NLogger();
+
         [Theory(DisplayName = "Add User")]
         [InlineData("s1", 12, "s@s.com", "1234567890")]
         [InlineData("s2", 12, "s1@s.com", "1234567890")]
 
         public void TestAddUser(string name, int age, string email, string mobileNumber)
         {
-            var con = new UserManagementAPIs.Controllers.UsersController();
+            var con = new UserManagementAPIs.Controllers.UsersController(logger);
             var userReq = new UserRequest()
             {
                 User = new User()
@@ -33,7 +36,7 @@ namespace UnitTest
 
         public void TestAddKid(long userId, string firstName, int age, string lastName)
         {
-            var con = new UserManagementAPIs.Controllers.KidController();
+            var con = new UserManagementAPIs.Controllers.KidController(logger);
             var kidReq = new KidRequest()
             {
                 Kid = new Kid()
@@ -54,7 +57,7 @@ namespace UnitTest
 
         public void TestAddHome(long userId, string homeType, string address, string state, string zipCode)
         {
-            var con = new UserManagementAPIs.Controllers.HomeController();
+            var con = new UserManagementAPIs.Controllers.HomeController(logger);
             var komeReq = new HomeRequest()
             {
                 Home = new Home()
@@ -78,7 +81,7 @@ namespace UnitTest
 
         public void TestUpdateUser(long userID, string name, int age, string email, string mobileNumber)
         {
-            var con = new UserManagementAPIs.Controllers.UsersController();
+            var con = new UserManagementAPIs.Controllers.UsersController(logger);
             var userReq = new UserRequest()
             {
                 User = new User()
@@ -100,7 +103,7 @@ namespace UnitTest
 
         public void TestUpdateKid(long userId, long kidId, string firstName, int age, string lastName)
         {
-            var con = new UserManagementAPIs.Controllers.KidController();
+            var con = new UserManagementAPIs.Controllers.KidController(logger);
             var kidReq = new KidRequest()
             {
                 Kid = new Kid()
@@ -122,7 +125,7 @@ namespace UnitTest
 
         public void TestUpdateHome(long userId, long homeId, string homeType, string address, string state, string zipCode)
         {
-            var con = new UserManagementAPIs.Controllers.HomeController();
+            var con = new UserManagementAPIs.Controllers.HomeController(logger);
             var komeReq = new HomeRequest()
             {
                 Home = new Home()
@@ -147,8 +150,8 @@ namespace UnitTest
 
         public void TestGetUser(long userId, long count)
         {
-            var con = new UserManagementAPIs.Controllers.UsersController();
-            
+            var con = new UserManagementAPIs.Controllers.UsersController(logger);
+
             var result = con.GetUser(userId);
             Assert.Equal(System.Net.HttpStatusCode.OK, result.HttpStatusCode);
         }
@@ -159,8 +162,8 @@ namespace UnitTest
 
         public void TestGetAllUser(long count)
         {
-            var con = new UserManagementAPIs.Controllers.UsersController();
-            
+            var con = new UserManagementAPIs.Controllers.UsersController(logger);
+
             var result = con.GetUser();
             Assert.Equal(System.Net.HttpStatusCode.OK, result.HttpStatusCode);
         }
